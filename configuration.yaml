@@ -1,0 +1,18 @@
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+homeassistant:
+  packages: !include_dir_named packages
+
+# GateMate Lab modular includes
+input_boolean: !include helpers_input_boolean.yaml
+input_number: !include helpers_input_number.yaml
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

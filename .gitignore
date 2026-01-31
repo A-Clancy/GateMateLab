@@ -1,0 +1,16 @@
+# Home Assistant runtime/state (do not track)
+.storage/
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+home-assistant.log*
+
+# Secrets (do not track)
+secrets.yaml
+
+# Backups and temp
+backups/
+tmp/
