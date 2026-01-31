@@ -1,0 +1,6 @@
+- binary_sensor:
+    - unique_id: lab_gate_vehicle_present
+      name: "Lab Gate Vehicle Present"
+      device_class: presence
+      state: >
+        {{ is_state('input_boolean.lab_gate_vehicle_present', 'on') }}

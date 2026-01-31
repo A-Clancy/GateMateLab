@@ -8,6 +8,7 @@ homeassistant:
 # GateMate Lab modular includes
 input_boolean: !include helpers_input_boolean.yaml
 input_number: !include helpers_input_number.yaml
+template: !include binary_sensors.yaml
 
 # Load frontend themes from the themes folder
 frontend:
