@@ -14,3 +14,6 @@ secrets.yaml
 # Backups and temp
 backups/
 tmp/
+
+# Home Assistant runtime lock
+.ha_run.lock
