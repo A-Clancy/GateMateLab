@@ -17,3 +17,6 @@ tmp/
 
 # Home Assistant runtime lock
 .ha_run.lock
+
+# Home Assistant blueprint files
+blueprints/template/
