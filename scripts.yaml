@@ -1,0 +1,15 @@
+lab_gate_set_vehicle_present:
+  alias: "Lab Gate Set Vehicle Present"
+  sequence:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.lab_gate_vehicle_present
+  mode: single
+
+lab_gate_set_vehicle_clear:
+  alias: "Lab Gate Set Vehicle Clear"
+  sequence:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.lab_gate_vehicle_present
+  mode: single
