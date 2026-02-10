@@ -1,0 +1,44 @@
+title: GateMate Lab
+views:
+  - title: GateMate
+    path: gatemate
+    icon: mdi:gate
+    type: masonry
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: tile
+            entity: binary_sensor.lab_gate_vehicle_present
+            name: Vehicle present
+            state_content:
+              - state
+              - last_changed
+            tap_action:
+              action: more-info
+          - type: history-graph
+            title: Vehicle presence (last 6h)
+            hours_to_show: 6
+            refresh_interval: 30
+            entities:
+              - entity: binary_sensor.lab_gate_vehicle_present
+                name: Vehicle present
+      - type: entities
+        title: Signal and inputs (read-only)
+        show_header_toggle: false
+        entities:
+          - entity: sensor.lab_gate_distance_sensor_distance
+            name: Distance (mm)
+          - entity: sensor.lab_gate_distance_sensor_battery
+            name: Battery
+          - entity: binary_sensor.lab_gate_distance_sensor_vibration
+            name: Vibration
+          - type: section
+            label: Detection parameters
+          - entity: input_number.lab_gate_distance_min_m
+            name: Min distance (m)
+          - entity: input_number.lab_gate_distance_max_m
+            name: Max distance (m)
+          - entity: input_number.lab_gate_dwell_time_s
+            name: Dwell time (s)
+          - entity: input_number.lab_gate_clearance_time_s
+            name: Clearance time (s)
