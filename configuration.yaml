@@ -10,8 +10,17 @@ input_boolean: !include helpers_input_boolean.yaml
 input_number: !include helpers_input_number.yaml
 template: !include binary_sensors.yaml
 
+# Lovelace UI configuration updated to future proof dashboard
 lovelace:
-  mode: yaml
+  dashboards:
+    lovelace-yaml:
+      mode: yaml
+      filename: ui-lovelace.yaml
+      title: GateMate
+      icon: mdi:gate
+      show_in_sidebar: true
+      require_admin: false
+
 
 # Load frontend themes from the themes folder
 frontend:
