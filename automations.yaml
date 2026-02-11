@@ -41,3 +41,35 @@
   actions:
   - action: script.lab_gate_set_vehicle_clear
   mode: single
+
+- id: lab_gate_notify_presence_detected
+  alias: "GateMate: notify on vehicle detected"
+  description: "Send a mobile push notification when vehicle presence becomes true."
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.lab_gate_vehicle_present
+      from: "off"
+      to: "on"
+  condition: []
+  action:
+    - service: notify.mobile_app_lab_user_phone
+      data:
+        title: "GateMate"
+        message: "Vehicle detected at gate."
+
+- id: lab_gate_notify_presence_cleared
+  alias: "GateMate: notify on vehicle cleared"
+  description: "Send a mobile push notification when vehicle presence becomes false."
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.lab_gate_vehicle_present
+      from: "on"
+      to: "off"
+  condition: []
+  action:
+    - service: notify.mobile_app_lab_user_phone
+      data:
+        title: "GateMate"
+        message: "Vehicle no longer detected at gate."
