@@ -20,7 +20,14 @@ lovelace:
       icon: mdi:gate
       show_in_sidebar: true
       require_admin: false
-
+    
+    gatemate-diagnostics:
+      mode: yaml
+      filename: ui-diagnostics.yaml
+      title: GateMate Diagnostics
+      icon: mdi:flask
+      show_in_sidebar: true
+      require_admin: false
 
 # Load frontend themes from the themes folder
 frontend:

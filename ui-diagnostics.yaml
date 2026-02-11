@@ -1,0 +1,52 @@
+title: GateMate Diagnostics
+views:
+  - title: Diagnostics
+    path: diagnostics
+    icon: mdi:flask
+    type: masonry
+    cards:
+      - type: entities
+        title: Physical layer (raw sensor)
+        show_header_toggle: false
+        entities:
+          - entity: sensor.lab_gate_distance_sensor_distance
+            name: Distance (mm)
+          - entity: sensor.lab_gate_distance_sensor_battery
+            name: Battery
+          - entity: binary_sensor.lab_gate_distance_sensor_vibration
+            name: Vibration
+
+      - type: entities
+        title: Logical layer (state + parameters)
+        show_header_toggle: false
+        entities:
+          - entity: input_boolean.lab_gate_vehicle_present
+            name: Presence helper (state owner)
+          - entity: binary_sensor.lab_gate_vehicle_present
+            name: Presence sensor (read-only mirror)
+          - type: section
+            label: Band and timing
+          - entity: input_number.lab_gate_distance_min_m
+            name: Min distance (m)
+          - entity: input_number.lab_gate_distance_max_m
+            name: Max distance (m)
+          - entity: input_number.lab_gate_dwell_time_s
+            name: Dwell time (s)
+          - entity: input_number.lab_gate_clearance_time_s
+            name: Clearance time (s)
+
+      - type: history-graph
+        title: Distance trend (last 2h)
+        hours_to_show: 2
+        refresh_interval: 30
+        entities:
+          - entity: sensor.lab_gate_distance_sensor_distance
+            name: Distance (mm)
+
+      - type: history-graph
+        title: Presence trend (last 6h)
+        hours_to_show: 6
+        refresh_interval: 30
+        entities:
+          - entity: binary_sensor.lab_gate_vehicle_present
+            name: Vehicle present
