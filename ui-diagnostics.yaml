@@ -20,12 +20,8 @@ views:
         title: Logical layer (state + parameters)
         show_header_toggle: false
         entities:
-          - entity: input_boolean.lab_gate_vehicle_present
-            name: Presence helper (state owner)
           - entity: binary_sensor.lab_gate_vehicle_present
-            name: Presence sensor (read-only mirror)
-          - entity: input_boolean.lab_gate_alert_acknowledged
-            name: Alert acknowledged
+            name: Presence (read-only)
           - type: section
             label: Band and timing
           - entity: input_number.lab_gate_distance_min_m
@@ -36,6 +32,13 @@ views:
             name: Dwell time (s)
           - entity: input_number.lab_gate_clearance_time_s
             name: Clearance time (s)
+
+      - type: markdown
+        title: Alert status
+        content: >-
+          Alert acknowledged: **{% if is_state('input_boolean.lab_gate_alert_acknowledged','on') %}Yes{% else %}No{% endif %}**
+
+          Last change: {{ states.input_boolean.lab_gate_alert_acknowledged.last_changed }}
 
       - type: history-graph
         title: Distance trend (last 2h)

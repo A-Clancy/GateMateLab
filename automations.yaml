@@ -69,8 +69,9 @@
     - service: notify.mobile_app_lab_user_phone
       data:
         title: "GateMate"
-        message: >
+        message: >-
           Vehicle detected at gate.
+          Tap Acknowledge to confirm you have seen this.
           Time: {{ now().strftime('%H:%M:%S') }}
         data:
           actions:
@@ -91,8 +92,9 @@
     - service: notify.mobile_app_lab_user_phone
       data:
         title: "GateMate"
-        message: >
+        message: >-
           Vehicle no longer detected at gate.
+          Acknowledged: {{ 'yes' if is_state('input_boolean.lab_gate_alert_acknowledged', 'on') else 'no' }}
           Time: {{ now().strftime('%H:%M:%S') }}
 
 - id: lab_gate_notification_acknowledge
@@ -104,7 +106,10 @@
       event_type: mobile_app_notification_action
       event_data:
         action: "LAB_GATE_ACK"
-  condition: []
+  condition:
+    - condition: state
+      entity_id: input_boolean.lab_gate_alert_acknowledged
+      state: "off"
   action:
     - action: input_boolean.turn_on
       target:

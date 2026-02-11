@@ -16,14 +16,12 @@ views:
             tap_action:
               action: more-info
 
-          - type: tile
-            entity: input_boolean.lab_gate_alert_acknowledged
-            name: Alert acknowledged
-            state_content:
-              - state
-              - last_changed
-            tap_action:
-              action: more-info
+          - type: markdown
+            title: Alert status
+            content: >-
+              Alert acknowledged: **{% if is_state('input_boolean.lab_gate_alert_acknowledged','on') %}Yes{% else %}No{% endif %}**
+
+              Last change: {{ states.input_boolean.lab_gate_alert_acknowledged.last_changed }}
 
           - type: history-graph
             title: Vehicle presence (last 6h)
