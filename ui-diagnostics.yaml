@@ -24,6 +24,8 @@ views:
             name: Presence helper (state owner)
           - entity: binary_sensor.lab_gate_vehicle_present
             name: Presence sensor (read-only mirror)
+          - entity: input_boolean.lab_gate_alert_acknowledged
+            name: Alert acknowledged
           - type: section
             label: Band and timing
           - entity: input_number.lab_gate_distance_min_m

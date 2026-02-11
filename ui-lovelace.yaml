@@ -15,6 +15,16 @@ views:
               - last_changed
             tap_action:
               action: more-info
+
+          - type: tile
+            entity: input_boolean.lab_gate_alert_acknowledged
+            name: Alert acknowledged
+            state_content:
+              - state
+              - last_changed
+            tap_action:
+              action: more-info
+
           - type: history-graph
             title: Vehicle presence (last 6h)
             hours_to_show: 6
@@ -22,6 +32,7 @@ views:
             entities:
               - entity: binary_sensor.lab_gate_vehicle_present
                 name: Vehicle present
+
       - type: entities
         title: Signal and inputs (read-only)
         show_header_toggle: false

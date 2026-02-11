@@ -69,7 +69,13 @@
     - service: notify.mobile_app_lab_user_phone
       data:
         title: "GateMate"
-        message: "Vehicle detected at gate."
+        message: >
+          Vehicle detected at gate.
+          Time: {{ now().strftime('%H:%M:%S') }}
+        data:
+          actions:
+            - action: "LAB_GATE_ACK"
+              title: "Acknowledge"
 
 - id: lab_gate_notify_presence_cleared
   alias: "GateMate: notify on vehicle cleared"
@@ -85,4 +91,21 @@
     - service: notify.mobile_app_lab_user_phone
       data:
         title: "GateMate"
-        message: "Vehicle no longer detected at gate."
+        message: >
+          Vehicle no longer detected at gate.
+          Time: {{ now().strftime('%H:%M:%S') }}
+
+- id: lab_gate_notification_acknowledge
+  alias: "GateMate: acknowledge alert"
+  description: "Set alert acknowledgement helper when the mobile notification action is pressed."
+  mode: single
+  trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: "LAB_GATE_ACK"
+  condition: []
+  action:
+    - action: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.lab_gate_alert_acknowledged
