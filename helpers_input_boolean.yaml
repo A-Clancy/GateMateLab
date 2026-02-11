@@ -1,3 +1,7 @@
 lab_gate_vehicle_present:
   name: "Lab Gate Vehicle Present"
   icon: mdi:car
+
+lab_gate_alert_acknowledged:
+  name: Lab Gate Alert Acknowledged
+  icon: mdi:check-circle-outline
