@@ -17,10 +17,6 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
 
-  ap:
-    ssid: "gatemate-gate-ble-proxy-fallback"
-    password: !secret fallback_ap_password
-
 captive_portal:
 
 bluetooth_proxy:
