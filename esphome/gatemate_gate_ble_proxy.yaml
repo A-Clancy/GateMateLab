@@ -1,0 +1,26 @@
+esphome:
+  name: gatemate-gate-ble-proxy
+  friendly_name: GateMate Gate BLE Proxy
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+
+api:
+
+ota:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "gatemate-gate-ble-proxy-fallback"
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+bluetooth_proxy:
