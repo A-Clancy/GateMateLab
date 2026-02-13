@@ -114,3 +114,20 @@
     - action: input_boolean.turn_on
       target:
         entity_id: input_boolean.lab_gate_alert_acknowledged
+
+- alias: Lab Gate Publish Vehicle State to MQTT
+  description: Publish authoritative vehicle presence state to MQTT.
+  mode: single
+
+  trigger:
+    - platform: state
+      entity_id: input_boolean.lab_gate_vehicle_present
+
+  action:
+    - service: mqtt.publish
+      data:
+        topic: gatemate/lab/gate/vehicle_present
+        payload: >
+          {{ 'true' if is_state('input_boolean.lab_gate_vehicle_present', 'on') else 'false' }}
+        retain: true
+
