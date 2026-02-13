@@ -67,13 +67,22 @@ Binary state uses:
 
 ---
 
-## 5. Reserved MQTT Topic (Future)
+## 5. Reserved MQTT Topics (Future)
 
-Topic:
-gatemate/vehicle
-
-Payload:
-- detected
-- cleared
-
+All MQTT publishing is performed by Home Assistant (not ESP32).
 No raw distance data will be published.
+
+Base topic:
+gatemate/lab/gate
+
+Topics:
+- gatemate/lab/gate/vehicle_present
+  Payload: true | false
+
+Optional (event-style):
+- gatemate/lab/gate/event
+  Payload: detected | cleared
+
+Optional (audit):
+- gatemate/lab/gate/last_change
+  Payload: ISO-8601 timestamp (UTC)
