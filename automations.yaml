@@ -61,22 +61,12 @@
   mode: single
   trigger:
     - platform: state
-      entity_id: binary_sensor.lab_gate_vehicle_present
+      entity_id: input_boolean.lab_gate_vehicle_present
       from: "off"
       to: "on"
   condition: []
   action:
-    - service: notify.mobile_app_lab_user_phone
-      data:
-        title: "GateMate"
-        message: >-
-          Vehicle detected at gate.
-          Tap Acknowledge to confirm you have seen this.
-          Time: {{ now().strftime('%H:%M:%S') }}
-        data:
-          actions:
-            - action: "LAB_GATE_ACK"
-              title: "Acknowledge"
+    - action: script.lab_gate_notify_detected
 
 - id: lab_gate_notify_presence_cleared
   alias: "GateMate: notify on vehicle cleared"
@@ -84,18 +74,12 @@
   mode: single
   trigger:
     - platform: state
-      entity_id: binary_sensor.lab_gate_vehicle_present
+      entity_id: input_boolean.lab_gate_vehicle_present
       from: "on"
       to: "off"
   condition: []
   action:
-    - service: notify.mobile_app_lab_user_phone
-      data:
-        title: "GateMate"
-        message: >-
-          Vehicle no longer detected at gate.
-          Acknowledged: {{ 'yes' if is_state('input_boolean.lab_gate_alert_acknowledged', 'on') else 'no' }}
-          Time: {{ now().strftime('%H:%M:%S') }}
+    - action: script.lab_gate_notify_cleared
 
 - id: lab_gate_notification_acknowledge
   alias: "GateMate: acknowledge alert"
@@ -115,14 +99,13 @@
       target:
         entity_id: input_boolean.lab_gate_alert_acknowledged
 
-- alias: Lab Gate Publish Vehicle State to MQTT
+- id: lab_gate_publish_vehicle_state_to_mqtt
+  alias: Lab Gate Publish Vehicle State to MQTT
   description: Publish authoritative vehicle presence state to MQTT.
   mode: single
-
   trigger:
     - platform: state
       entity_id: input_boolean.lab_gate_vehicle_present
-
   action:
     - service: mqtt.publish
       data:
@@ -130,4 +113,3 @@
         payload: >
           {{ 'true' if is_state('input_boolean.lab_gate_vehicle_present', 'on') else 'false' }}
         retain: true
-
