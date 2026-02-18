@@ -63,3 +63,14 @@ lab_gate_notify_cleared:
           Vehicle no longer detected at gate.
           Acknowledged: {{ 'yes' if is_state('input_boolean.lab_gate_alert_acknowledged', 'on') else 'no' }}
           Time: {{ now().strftime('%H:%M:%S') }}
+
+lab_gate_notify_still_present:
+  alias: "GateMate: Notify Still Present"
+  mode: single
+  sequence:
+    - service: notify.mobile_app_lab_user_phone
+      data:
+        title: "GateMate"
+        message: >-
+          Vehicle still present at gate.
+          Time: {{ now().strftime('%H:%M:%S') }}

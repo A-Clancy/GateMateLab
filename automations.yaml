@@ -113,3 +113,20 @@
         payload: >
           {{ 'true' if is_state('input_boolean.lab_gate_vehicle_present', 'on') else 'false' }}
         retain: true
+
+- id: lab_gate_notify_presence_still_present
+  alias: "GateMate: notify if vehicle still present"
+  description: "Send a follow-up notification if vehicle remains present for 2 minutes."
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: input_boolean.lab_gate_vehicle_present
+      to: "on"
+      for:
+        minutes: 2
+  condition:
+    - condition: state
+      entity_id: input_boolean.lab_gate_alert_acknowledged
+      state: "off"
+  action:
+    - action: script.lab_gate_notify_still_present
