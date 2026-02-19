@@ -14,7 +14,6 @@ lab_gate_set_vehicle_present:
       target:
         entity_id: input_boolean.lab_gate_detected_notified
 
-
 lab_gate_set_vehicle_clear:
   alias: "Lab Gate Set Vehicle Clear"
   mode: single
@@ -28,7 +27,6 @@ lab_gate_set_vehicle_clear:
     - service: input_boolean.turn_off
       target:
         entity_id: input_boolean.lab_gate_cleared_notified
-
 
 lab_gate_notify_detected:
   alias: "GateMate: Notify Detected"
@@ -119,3 +117,26 @@ lab_gate_notify_cleared:
               data:
                 datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
       default: []
+
+gatemate_notify_low_battery:
+  alias: "GateMate: Notify Low Battery (Reusable)"
+  mode: queued
+  max: 10
+  fields:
+    device_name:
+      description: "Friendly device name for the notification"
+      example: "Lab Gate Distance Sensor"
+    battery_entity:
+      description: "Battery entity_id (sensor.*)"
+      example: "sensor.lab_gate_distance_sensor_battery"
+    battery_percent:
+      description: "Battery % at time of notification"
+      example: 10
+  sequence:
+    - service: notify.mobile_app_lab_user_phone
+      data:
+        title: "GateMate: Low Battery"
+        message: >-
+          {{ device_name }} battery is low ({{ battery_percent }}%).
+          Entity: {{ battery_entity }}
+          Time: {{ now().strftime('%H:%M:%S') }}
