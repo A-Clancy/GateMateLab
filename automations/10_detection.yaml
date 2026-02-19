@@ -1,0 +1,56 @@
+- id: lab_gate_vehicle_detected_after_dwell
+  alias: Lab Gate Vehicle Detected After Dwell
+  description: Set vehicle present when distance remains within band for dwell time.
+  triggers:
+    - trigger: template
+      value_template: >-
+        {% set raw = states('sensor.lab_gate_distance_sensor_distance') %}
+        {% set d_mm = raw | float(none) %}
+        {% if d_mm is none or d_mm == 0 %}
+          false
+        {% else %}
+          {% set d = d_mm / 1000 %}
+          {% set min_m = states('input_number.lab_gate_distance_min_m') | float %}
+          {% set max_m = states('input_number.lab_gate_distance_max_m') | float %}
+          {{ d >= min_m and d <= max_m }}
+        {% endif %}
+      for:
+        seconds: 5
+  conditions:
+    - condition: state
+      entity_id: input_boolean.lab_gate_vehicle_present
+      state: "off"
+  actions:
+    - action: script.lab_gate_set_vehicle_present
+  mode: single
+
+- id: lab_gate_vehicle_cleared_after_clearance
+  alias: Lab Gate Vehicle Cleared After Clearance
+  description: Clear vehicle present when distance remains outside band (or unavailable) for clearance time.
+  triggers:
+    - trigger: template
+      value_template: >-
+        {% set raw = states('sensor.lab_gate_distance_sensor_distance') %}
+        {% set min_m = states('input_number.lab_gate_distance_min_m') | float %}
+        {% set max_m = states('input_number.lab_gate_distance_max_m') | float %}
+
+        {% if raw in ['unknown', 'unavailable'] %}
+          true
+        {% else %}
+          {% set d_mm = raw | float(none) %}
+          {% if d_mm is none or d_mm == 0 %}
+            false
+          {% else %}
+            {% set d = d_mm / 1000 %}
+            {{ d < min_m or d > max_m }}
+          {% endif %}
+        {% endif %}
+      for:
+        seconds: 3
+  conditions:
+    - condition: state
+      entity_id: input_boolean.lab_gate_vehicle_present
+      state: "on"
+  actions:
+    - action: script.lab_gate_set_vehicle_clear
+  mode: single

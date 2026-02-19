@@ -1,0 +1,56 @@
+- id: lab_gate_low_battery_alert
+  alias: "GateMate: Low battery alert (Lab Gate Distance Sensor)"
+  description: "Notify when Shelly Blu Distance battery is low, with dedupe and re-arm."
+  mode: single
+
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.lab_gate_distance_sensor_battery
+      below: 10
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.lab_gate_battery_alert_sent
+      state: "off"
+
+  action:
+    - variables:
+        device_name: "Lab Gate Distance Sensor"
+        battery_entity: "sensor.lab_gate_distance_sensor_battery"
+        battery_percent: "{{ states(battery_entity) | int(0) }}"
+
+    - action: script.gatemate_notify_low_battery
+      data:
+        device_name: "{{ device_name }}"
+        battery_entity: "{{ battery_entity }}"
+        battery_percent: "{{ battery_percent }}"
+
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.lab_gate_battery_alert_sent
+
+    - service: input_datetime.set_datetime
+      target:
+        entity_id: input_datetime.lab_gate_battery_last_alert
+      data:
+        datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+
+- id: lab_gate_low_battery_rearm
+  alias: "GateMate: Low battery alert re-arm (Lab Gate Distance Sensor)"
+  description: "Re-arm low battery notification once battery recovers above 20%."
+  mode: single
+
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.lab_gate_distance_sensor_battery
+      above: 20
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.lab_gate_battery_alert_sent
+      state: "on"
+
+  action:
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.lab_gate_battery_alert_sent
