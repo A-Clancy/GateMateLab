@@ -9,7 +9,7 @@
       to: "on"
   condition: []
   action:
-    - action: script.lab_gate_notify_detected
+    - service: script.lab_gate_notify_detected
 
 - id: lab_gate_notify_presence_cleared
   alias: "GateMate: notify on vehicle cleared"
@@ -22,7 +22,7 @@
       to: "off"
   condition: []
   action:
-    - action: script.lab_gate_notify_cleared
+    - service: script.lab_gate_notify_cleared
 
 - id: lab_gate_notification_acknowledge
   alias: "GateMate: acknowledge alert"
@@ -38,7 +38,7 @@
       entity_id: input_boolean.lab_gate_alert_acknowledged
       state: "off"
   action:
-    - action: input_boolean.turn_on
+    - service: input_boolean.turn_on
       target:
         entity_id: input_boolean.lab_gate_alert_acknowledged
 
@@ -57,4 +57,4 @@
       entity_id: input_boolean.lab_gate_alert_acknowledged
       state: "off"
   action:
-    - action: script.lab_gate_notify_still_present
+    - service: script.lab_gate_notify_still_present
