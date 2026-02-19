@@ -6,9 +6,9 @@ homeassistant:
   packages: !include_dir_named packages
 
 # GateMate Lab modular includes
-input_boolean: !include helpers_input_boolean.yaml
-input_number: !include helpers_input_number.yaml
-input_datetime: !include helpers_input_datetime.yaml
+input_boolean: !include helpers/helpers_input_boolean.yaml
+input_number: !include helpers/helpers_input_number.yaml
+input_datetime: !include helpers/helpers_input_datetime.yaml
 template: !include binary_sensors.yaml
 
 # Lovelace UI configuration updated to future proof dashboard
