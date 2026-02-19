@@ -1,0 +1,22 @@
+gatemate_notify_low_battery:
+  alias: "GateMate: Notify Low Battery (Reusable)"
+  mode: queued
+  max: 10
+  fields:
+    device_name:
+      description: "Friendly device name for the notification"
+      example: "Lab Gate Distance Sensor"
+    battery_entity:
+      description: "Battery entity_id (sensor.*)"
+      example: "sensor.lab_gate_distance_sensor_battery"
+    battery_percent:
+      description: "Battery % at time of notification"
+      example: 10
+  sequence:
+    - service: notify.mobile_app_lab_user_phone
+      data:
+        title: "GateMate: Low Battery"
+        message: >-
+          {{ device_name }} battery is low ({{ battery_percent }}%).
+          Entity: {{ battery_entity }}
+          Time: {{ now().strftime('%H:%M:%S') }}
