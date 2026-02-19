@@ -1,7 +1,19 @@
+lab_gate_alert_acknowledged:
+  name: "Lab Gate Alert Acknowledged"
+  initial: false
+
+lab_gate_battery_alert_sent:
+  name: "Lab Gate Battery Alert Sent"
+  initial: false
+
+lab_gate_cleared_notified:
+  name: "Lab Gate Cleared Notified"
+  initial: false
+
+lab_gate_detected_notified:
+  name: "Lab Gate Detected Notified"
+  initial: false
+
 lab_gate_vehicle_present:
   name: "Lab Gate Vehicle Present"
-  icon: mdi:car
-
-lab_gate_alert_acknowledged:
-  name: Lab Gate Alert Acknowledged
-  icon: mdi:check-circle-outline
+  initial: false

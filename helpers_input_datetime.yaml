@@ -1,0 +1,9 @@
+lab_gate_last_notification:
+  name: "Lab Gate Last Notification"
+  has_date: true
+  has_time: true
+
+lab_gate_battery_last_alert:
+  name: "Lab Gate Battery Last Alert"
+  has_date: true
+  has_time: true
