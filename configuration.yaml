@@ -1,5 +1,5 @@
 
-# Loads default set of integrations. Do not remove.
+# Loads default set of integrations.
 default_config:
 
 homeassistant:
@@ -9,7 +9,7 @@ homeassistant:
 input_boolean: !include helpers/helpers_input_boolean.yaml
 input_number: !include helpers/helpers_input_number.yaml
 input_datetime: !include helpers/helpers_input_datetime.yaml
-template: !include binary_sensors.yaml
+template: !include templates/binary_sensors.yaml
 
 # Lovelace UI configuration updated to future proof dashboard
 lovelace:
