@@ -20,3 +20,12 @@ tmp/
 
 # Home Assistant blueprint files
 blueprints/template/
+
+# HA Version file
+.HA_VERSION
+
+# Home Assistant cloud
+.cloud/
+
+# Fault logs
+*.fault
