@@ -16,7 +16,7 @@ lovelace:
   dashboards:
     lovelace-yaml:
       mode: yaml
-      filename: ui-lovelace.yaml
+      filename: ui/ui-lovelace.yaml
       title: GateMate
       icon: mdi:gate
       show_in_sidebar: true
@@ -24,7 +24,7 @@ lovelace:
     
     gatemate-diagnostics:
       mode: yaml
-      filename: ui-diagnostics.yaml
+      filename: ui/ui-diagnostics.yaml
       title: GateMate Diagnostics
       icon: mdi:flask
       show_in_sidebar: true
