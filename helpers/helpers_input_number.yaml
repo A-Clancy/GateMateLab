@@ -33,3 +33,13 @@ lab_gate_clearance_time_s:
   mode: box
   unit_of_measurement: "s"
   initial: 3
+
+lab_gate_dropout_timeout_s:
+  name: "Lab Gate Dropout Timeout (s)"
+  min: 10
+  max: 300
+  step: 5
+  mode: box
+  unit_of_measurement: "s"
+  icon: mdi:timer-outline
+  initial: 60

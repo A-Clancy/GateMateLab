@@ -1,0 +1,8 @@
+- binary_sensor:
+    - name: "Lab Gate Distance Sensor Healthy"
+      unique_id: lab_gate_distance_sensor_healthy
+      state: >-
+        {% set d = states('sensor.lab_gate_distance_sensor_distance') | float(none) %}
+        {{ d is not none }}
+      delay_off:
+        seconds: 5

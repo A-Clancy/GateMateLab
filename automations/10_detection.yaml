@@ -54,3 +54,32 @@
   actions:
     - action: script.lab_gate_set_vehicle_clear
   mode: single
+
+- id: lab_gate_sensor_dropout_fail_safe_clear
+  alias: "GateMate: Fail-safe clear on sensor dropout (Lab Gate)"
+  description: "Clear presence if sensor unhealthy for configured timeout while vehicle_present is ON."
+  mode: single
+
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.lab_gate_distance_sensor_healthy
+      to: "off"
+      for:
+        seconds: "{{ states('input_number.lab_gate_dropout_timeout_s') | int }}"
+
+  condition:
+    - condition: state
+      entity_id: input_boolean.lab_gate_vehicle_present
+      state: "on"
+
+  action:
+    - action: script.lab_gate_set_vehicle_clear
+
+    - action: script.gatemate_notify
+      data:
+        title: "GateMate (Lab): Sensor dropout"
+        message: >-
+          Distance sensor unhealthy for
+          {{ states('input_number.lab_gate_dropout_timeout_s') | int }} seconds.
+          Presence fail-safe cleared.
+        tag: "gatemate_lab_sensor_dropout"
