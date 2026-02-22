@@ -35,6 +35,9 @@
         action: "LAB_GATE_ACK"
   condition:
     - condition: state
+      entity_id: input_boolean.lab_gate_vehicle_present
+      state: "on"
+    - condition: state
       entity_id: input_boolean.lab_gate_alert_acknowledged
       state: "off"
   action:

@@ -20,10 +20,8 @@ lab_gate_set_vehicle_clear:
   sequence:
     - service: input_boolean.turn_off
       target:
-        entity_id: input_boolean.lab_gate_vehicle_present
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.lab_gate_detected_notified
-    - service: input_boolean.turn_off
-      target:
-        entity_id: input_boolean.lab_gate_cleared_notified
+        entity_id:
+          - input_boolean.lab_gate_vehicle_present
+          - input_boolean.lab_gate_alert_acknowledged
+          - input_boolean.lab_gate_detected_notified
+          - input_boolean.lab_gate_cleared_notified
