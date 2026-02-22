@@ -4,6 +4,13 @@ import time
 import requests
 import paho.mqtt.client as mqtt
 
+from display import SenseHatDisplay
+
+# TODO: Refactor outputs into modules:
+# - notifier.py for ntfy (and any future channels)
+# - display.py for Sense HAT
+# - widen payload parsing to accept ON/OFF and add optional ack topic support.
+
 MQTT_HOST = os.getenv("MQTT_HOST", "192.168.0.23")
 MQTT_PORT = int(os.getenv("MQTT_PORT", "1883"))
 MQTT_USER = os.getenv("MQTT_USER", "mqtt_subscriber")
@@ -17,6 +24,7 @@ NTFY_SERVER = os.getenv("NTFY_SERVER", "https://ntfy.sh")
 NOTIFY_ON_FALSE = os.getenv("NOTIFY_ON_FALSE", "false").lower() == "true"
 
 _last_payload = None
+_display = SenseHatDisplay()
 
 
 def ntfy_send(title: str, message: str) -> None:
@@ -24,6 +32,15 @@ def ntfy_send(title: str, message: str) -> None:
     headers = {"Title": title}
     resp = requests.post(url, data=message.encode("utf-8"), headers=headers, timeout=10)
     resp.raise_for_status()
+
+
+def parse_presence(payload: str) -> bool | None:
+    p = payload.strip().lower()
+    if p in ["true", "on", "1", "present", "yes"]:
+        return True
+    if p in ["false", "off", "0", "clear", "no"]:
+        return False
+    return None
 
 
 def on_connect(client, userdata, flags, rc, properties=None):
@@ -36,7 +53,7 @@ def on_connect(client, userdata, flags, rc, properties=None):
 
 def on_message(client, userdata, msg):
     global _last_payload
-    payload = msg.payload.decode("utf-8").strip().lower()
+    payload = msg.payload.decode("utf-8", errors="ignore").strip().lower()
 
     # Deduplicate identical consecutive payloads
     if payload == _last_payload:
@@ -46,14 +63,19 @@ def on_message(client, userdata, msg):
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     print(f"[mqtt] {ts} topic={msg.topic} payload={payload}")
 
-    if payload == "true":
+    presence = parse_presence(payload)
+    if presence is None:
+        ntfy_send("GateMate", f"Unexpected payload on {TOPIC}: {payload}")
+        return
+
+    # Sense HAT output: matrix shows current state; scroll only on state change.
+    _display.update_presence(presence, scroll_on_change=True)
+
+    if presence is True:
         ntfy_send("GateMate", "Vehicle detected at gate.")
-    elif payload == "false":
+    else:
         if NOTIFY_ON_FALSE:
             ntfy_send("GateMate", "Vehicle cleared at gate.")
-    else:
-        # Unexpected payload
-        ntfy_send("GateMate", f"Unexpected payload on {TOPIC}: {payload}")
 
 
 def main():
