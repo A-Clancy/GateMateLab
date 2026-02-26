@@ -61,3 +61,41 @@
       state: "off"
   action:
     - service: script.lab_gate_notify_still_present
+
+- id: lab_gate_acknowledge_via_shelly_blu_button
+  alias: "GateMate: acknowledge alert (Shelly BLU Button - press)"
+  description: "Acknowledge active gate alert via Shelly BLU Button press. Does not modify presence state."
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: event.shelly_blu_button1_4359_button
+  condition:
+    - condition: template
+      value_template: >-
+        {{ trigger.to_state is not none
+           and trigger.to_state.attributes is not none
+           and trigger.to_state.attributes.event_type == 'press' }}
+    - condition: state
+      entity_id: input_boolean.lab_gate_vehicle_present
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.lab_gate_alert_acknowledged
+      state: "off"
+  action:
+    - service: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.lab_gate_alert_acknowledged
+
+- id: lab_gate_publish_acknowledged_mqtt
+  alias: "GateMate: publish alert acknowledgement (MQTT retained)"
+  description: "Publish retained acknowledgement state for external consumers."
+  mode: single
+  trigger:
+    - platform: state
+      entity_id: input_boolean.lab_gate_alert_acknowledged
+  action:
+    - service: mqtt.publish
+      data:
+        topic: "gatemate/lab/gate/alert_acknowledged"
+        payload: "{{ 'true' if is_state('input_boolean.lab_gate_alert_acknowledged','on') else 'false' }}"
+        retain: true
