@@ -4,7 +4,7 @@
   triggers:
     - trigger: template
       value_template: >-
-        {% set raw = states('sensor.lab_gate_distance_sensor_distance') %}
+        {% set raw = states('sensor.lab_gate_distance_authoritative') %}
         {% set d_mm = raw | float(none) %}
         {% if d_mm is none or d_mm == 0 %}
           false
@@ -30,7 +30,7 @@
   triggers:
     - trigger: template
       value_template: >-
-        {% set raw = states('sensor.lab_gate_distance_sensor_distance') %}
+        {% set raw = states('sensor.lab_gate_distance_authoritative') %}
         {% set min_m = states('input_number.lab_gate_distance_min_m') | float %}
         {% set max_m = states('input_number.lab_gate_distance_max_m') | float %}
 
@@ -62,7 +62,7 @@
 
   trigger:
     - platform: state
-      entity_id: binary_sensor.lab_gate_distance_sensor_healthy
+      entity_id: binary_sensor.lab_gate_sensor_healthy_authoritative
       to: "off"
       for:
         seconds: "{{ states('input_number.lab_gate_dropout_timeout_s') | int }}"

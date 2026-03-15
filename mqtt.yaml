@@ -1,0 +1,21 @@
+sensor:
+  - name: "Lab Gate LoRa Distance Raw"
+    unique_id: lab_gate_lora_distance_raw
+    state_topic: "gatemate/lab/gate/lora/distance_mm"
+    unit_of_measurement: "mm"
+    device_class: distance
+    state_class: measurement
+
+  - name: "Lab Gate LoRa Battery Raw"
+    unique_id: lab_gate_lora_battery_raw
+    state_topic: "gatemate/lab/gate/lora/battery"
+    unit_of_measurement: "%"
+    device_class: battery
+    state_class: measurement
+
+binary_sensor:
+  - name: "Lab Gate LoRa Healthy Raw"
+    unique_id: lab_gate_lora_healthy_raw
+    state_topic: "gatemate/lab/gate/lora/healthy"
+    payload_on: "true"
+    payload_off: "false"

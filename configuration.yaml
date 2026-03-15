@@ -9,6 +9,7 @@ homeassistant:
 input_boolean: !include helpers/helpers_input_boolean.yaml
 input_number: !include helpers/helpers_input_number.yaml
 input_datetime: !include helpers/helpers_input_datetime.yaml
+input_select: !include helpers/helpers_input_select.yaml
 template: !include_dir_merge_list templates/
 
 # Lovelace UI configuration updated to future proof dashboard
@@ -37,3 +38,4 @@ frontend:
 automation: !include_dir_merge_list automations/
 script: !include_dir_merge_named scripts/
 scene: !include scenes.yaml
+mqtt: !include mqtt.yaml

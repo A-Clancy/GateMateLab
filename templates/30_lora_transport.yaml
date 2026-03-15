@@ -1,0 +1,19 @@
+- sensor:
+    - name: "Lab Gate LoRa Distance"
+      unique_id: lab_gate_lora_distance
+      state: "{{ states('sensor.lab_gate_lora_distance_raw') }}"
+      unit_of_measurement: "mm"
+      device_class: distance
+      state_class: measurement
+
+    - name: "Lab Gate LoRa Battery"
+      unique_id: lab_gate_lora_battery
+      state: "{{ states('sensor.lab_gate_lora_battery_raw') }}"
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+
+  binary_sensor:
+    - name: "Lab Gate LoRa Healthy"
+      unique_id: lab_gate_lora_healthy
+      state: "{{ is_state('binary_sensor.lab_gate_lora_healthy_raw', 'on') }}"

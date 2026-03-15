@@ -1,0 +1,7 @@
+lab_gate_transport_mode:
+  name: "Lab Gate Transport Mode"
+  options:
+    - BLE
+    - LoRa
+  initial: BLE
+  icon: mdi:swap-horizontal

@@ -6,15 +6,35 @@ views:
     type: masonry
     cards:
       - type: entities
-        title: Physical layer (raw sensor)
+        title: Transport control and authoritative layer
+        show_header_toggle: false
+        entities:
+          - entity: input_select.lab_gate_transport_mode
+            name: Transport mode
+          - entity: sensor.lab_gate_distance_authoritative
+            name: Authoritative distance (mm)
+          - entity: sensor.lab_gate_battery_authoritative
+            name: Authoritative battery
+
+      - type: entities
+        title: BLE transport
         show_header_toggle: false
         entities:
           - entity: sensor.lab_gate_distance_sensor_distance
-            name: Distance (mm)
+            name: BLE distance (mm)
           - entity: sensor.lab_gate_distance_sensor_battery
-            name: Battery
+            name: BLE battery
           - entity: binary_sensor.lab_gate_distance_sensor_vibration
-            name: Vibration
+            name: BLE vibration
+
+      - type: entities
+        title: LoRa transport
+        show_header_toggle: false
+        entities:
+          - entity: sensor.lab_gate_lora_distance
+            name: LoRa distance (mm)
+          - entity: sensor.lab_gate_lora_battery
+            name: LoRa battery
 
       - type: entities
         title: Logical layer (state + parameters)
@@ -41,12 +61,12 @@ views:
           Last change: {{ states.input_boolean.lab_gate_alert_acknowledged.last_changed }}
 
       - type: history-graph
-        title: Distance trend (last 2h)
+        title: Authoritative distance trend (last 2h)
         hours_to_show: 2
         refresh_interval: 30
         entities:
-          - entity: sensor.lab_gate_distance_sensor_distance
-            name: Distance (mm)
+          - entity: sensor.lab_gate_distance_authoritative
+            name: Authoritative distance (mm)
 
       - type: history-graph
         title: Presence trend (last 6h)

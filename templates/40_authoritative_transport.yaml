@@ -1,0 +1,34 @@
+- sensor:
+    - name: "Lab Gate Distance Authoritative"
+      unique_id: lab_gate_distance_authoritative
+      state: >-
+        {% if is_state('input_select.lab_gate_transport_mode', 'LoRa') %}
+          {{ states('sensor.lab_gate_lora_distance') }}
+        {% else %}
+          {{ states('sensor.lab_gate_distance_sensor_distance') }}
+        {% endif %}
+      unit_of_measurement: "mm"
+      device_class: distance
+      state_class: measurement
+
+    - name: "Lab Gate Battery Authoritative"
+      unique_id: lab_gate_battery_authoritative
+      state: >-
+        {% if is_state('input_select.lab_gate_transport_mode', 'LoRa') %}
+          {{ states('sensor.lab_gate_lora_battery') }}
+        {% else %}
+          {{ states('sensor.lab_gate_distance_sensor_battery') }}
+        {% endif %}
+      unit_of_measurement: "%"
+      device_class: battery
+      state_class: measurement
+
+  binary_sensor:
+  - name: "Lab Gate Sensor Healthy Authoritative"
+    unique_id: lab_gate_sensor_healthy_authoritative
+    state: >-
+      {% if is_state('input_select.lab_gate_transport_mode', 'LoRa') %}
+        {{ is_state('binary_sensor.lab_gate_lora_healthy', 'on') }}
+      {% else %}
+        {{ is_state('binary_sensor.lab_gate_distance_sensor_healthy', 'on') }}
+      {% endif %}
