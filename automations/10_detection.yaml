@@ -24,6 +24,7 @@
     - action: script.lab_gate_set_vehicle_present
   mode: single
 
+
 - id: lab_gate_vehicle_cleared_after_clearance
   alias: Lab Gate Vehicle Cleared After Clearance
   description: Clear vehicle present when distance remains outside band (or unavailable) for clearance time.
@@ -55,6 +56,7 @@
     - action: script.lab_gate_set_vehicle_clear
   mode: single
 
+
 - id: lab_gate_sensor_dropout_fail_safe_clear
   alias: "GateMate: Fail-safe clear on sensor dropout (Lab Gate)"
   description: "Clear presence if sensor unhealthy for configured timeout while vehicle_present is ON."
@@ -75,11 +77,14 @@
   action:
     - action: script.lab_gate_set_vehicle_clear
 
-    - action: script.gatemate_notify
+    - service: script.turn_on
+      target:
+        entity_id: script.gatemate_notify
       data:
-        title: "GateMate (Lab): Sensor dropout"
-        message: >-
-          Distance sensor unhealthy for
-          {{ states('input_number.lab_gate_dropout_timeout_s') | int }} seconds.
-          Presence fail-safe cleared.
-        tag: "gatemate_lab_sensor_dropout"
+        variables:
+          title: "GateMate (Lab): Sensor dropout"
+          message: >-
+            Distance sensor unhealthy for
+            {{ states('input_number.lab_gate_dropout_timeout_s') | int }} seconds.
+            Presence fail-safe cleared.
+          tag: "gatemate_lab_sensor_dropout"
