@@ -36,12 +36,21 @@ views:
           - entity: sensor.lab_gate_lora_battery
             name: LoRa battery
 
+      - type: markdown
+        title: Vehicle Present?
+        content: >-
+          {% if is_state('binary_sensor.lab_gate_vehicle_present', 'on') %}
+          **Yes**
+          {% else %}
+          **No**
+          {% endif %}
+
+          Last change: {{ states.binary_sensor.lab_gate_vehicle_present.last_changed }}
+
       - type: entities
-        title: Logical layer (state + parameters)
+        title: Logical layer (parameters)
         show_header_toggle: false
         entities:
-          - entity: binary_sensor.lab_gate_vehicle_present
-            name: Presence (read-only)
           - type: section
             label: Band and timing
           - entity: input_number.lab_gate_distance_min_m
@@ -69,7 +78,7 @@ views:
             name: Authoritative distance (mm)
 
       - type: history-graph
-        title: Presence trend (last 6h)
+        title: Vehicle presence trend (last 6h)
         hours_to_show: 6
         refresh_interval: 30
         entities:

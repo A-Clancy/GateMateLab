@@ -7,11 +7,19 @@ views:
     cards:
       - type: vertical-stack
         cards:
+          - type: markdown
+            title: Vehicle Present?
+            content: >-
+              {% if is_state('binary_sensor.lab_gate_vehicle_present', 'on') %}
+              # Yes
+              {% else %}
+              # No
+              {% endif %}
+
           - type: tile
             entity: binary_sensor.lab_gate_vehicle_present
-            name: Vehicle present
+            name: Vehicle presence sensor
             state_content:
-              - state
               - last_changed
             tap_action:
               action: more-info
@@ -24,7 +32,7 @@ views:
               Last change: {{ states.input_boolean.lab_gate_alert_acknowledged.last_changed }}
 
           - type: history-graph
-            title: Vehicle presence (last 6h)
+            title: Vehicle presence trend (last 6h)
             hours_to_show: 6
             refresh_interval: 30
             entities:
