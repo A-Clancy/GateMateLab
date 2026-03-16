@@ -1,106 +1,148 @@
-# GateMate Lab – Home Assistant Environment Specification
+# GateMate Lab -- Home Assistant Environment Specification
 
-This document defines the minimal Home Assistant environment required to reproduce the GateMate BLE Proxy lab instance.
+Part of: GateMate Lab Documentation
 
-Scope: GateMate only.  
-Non-related integrations and add-ons are intentionally excluded.
+This document describes the minimal Home Assistant environment required
+to reproduce the GateMate Lab instance used for development and
+validation.
 
----
+The goal is reproducibility: another developer should be able to
+recreate the working GateMate system with a similar Home Assistant
+installation and hardware setup.
 
-## 1. Platform
+Scope: GateMate components only. Unrelated Home Assistant integrations
+and add‑ons are intentionally excluded.
 
-- Home Assistant OS
-- Raspberry Pi hardware
-- Supervisor mode enabled
+------------------------------------------------------------------------
 
----
+## Platform
 
-## 2. Add-ons (Required for GateMate)
+GateMate Lab runs on the following base platform:
 
-### 2.1 ESPHome Device Builder
+-   Home Assistant OS
+-   Raspberry Pi hardware
+-   Supervisor enabled
+
+The system is managed via a Samba share and Git-controlled configuration
+to maintain traceability of configuration changes.
+
+------------------------------------------------------------------------
+
+## Required Add-ons
+
+### ESPHome Device Builder
+
 Purpose:
-- Compile and deploy ESPHome firmware
-- Manage ESP32 BLE Proxy configuration
 
-Used For:
-- `gatemate_gate_ble_proxy.yaml`
-- Deterministic firmware deployment
-- OTA updates (via static IP)
+-   Compile and deploy ESPHome firmware
+-   Manage the ESP32 Bluetooth proxy used by the BLE transport path
+
+Used for:
+
+-   `gatemate_gate_ble_proxy.yaml`
+-   OTA firmware updates
 
 Status: Required
 
----
+------------------------------------------------------------------------
 
-### 2.2 Mosquitto Broker
+### Mosquitto Broker
+
 Purpose:
-- Local MQTT broker
-- Publish authoritative vehicle state
 
-Used For:
-- Topic: `gatemate/lab/gate/vehicle_present`
+-   Local MQTT broker used for system integration
+-   Publishes authoritative vehicle state to external consumers
+
+Primary topic:
+
+    gatemate/lab/gate/vehicle_present
 
 Status: Required
 
----
+------------------------------------------------------------------------
 
-### 2.3 Samba Share
+### Samba Share
+
 Purpose:
-- Access `/config` directory from VS Code
-- Git repository management
-- Version-controlled configuration
+
+-   Access `/config` directory from VS Code
+-   Manage configuration files under Git version control
 
 Rationale:
-Required for reproducible development workflow and assessment traceability.
+
+This workflow supports reproducible development and aligns with software
+engineering practices expected in an academic project.
 
 Status: Required
 
----
+------------------------------------------------------------------------
 
-### 2.4 Advanced SSH & Web Terminal
+### Advanced SSH & Web Terminal
+
 Purpose:
-- Git CLI operations
-- Commit management
-- Controlled configuration changes
+
+-   Git CLI operations
+-   system maintenance
+-   service inspection
 
 Status: Required
 
----
+------------------------------------------------------------------------
 
-### 2.5 File Editor
+### File Editor
+
 Purpose:
-- YAML configuration edits within HA
-- Rapid automation adjustments
 
-Status: Required
+-   quick YAML edits within Home Assistant
 
----
+Status: Optional (used for convenience during development)
 
-## 3. Integrations (GateMate Relevant Only)
+------------------------------------------------------------------------
 
-### 3.1 ESPHome
-- Device: GateMate Gate BLE Proxy
-- Role: BLE relay only
+## Integrations Relevant to GateMate
 
----
+### ESPHome
 
-### 3.2 Bluetooth
-- Includes:
-  - ESP32 BLE Proxy
-  - Raspberry Pi internal Bluetooth (lab validation only)
+Device:
 
----
+-   GateMate Gate BLE Proxy
 
-### 3.3 BTHome
-- Device: Shelly BLU Distance
-- Provides:
-  - Distance sensor
-  - Battery status
-  - RSSI
+Role:
 
----
+-   Relays BLE advertisements from the distance sensor to Home Assistant
+    over Wi‑Fi.
 
-### 3.4 MQTT
-- Backed by Mosquitto Broker add-on
-- Local broker only (no internet exposure)
+------------------------------------------------------------------------
 
-Authoritative Published Topic:
+### Bluetooth
+
+Provides the Bluetooth stack used for:
+
+-   ESP32 BLE Proxy integration
+-   local BLE testing during development
+
+------------------------------------------------------------------------
+
+### BTHome
+
+Device:
+
+-   Shelly BLU Distance sensor
+
+Provides:
+
+-   distance telemetry
+-   battery status
+-   signal strength (RSSI)
+
+------------------------------------------------------------------------
+
+### MQTT
+
+Backed by the Mosquitto broker add‑on.
+
+Purpose:
+
+-   publish authoritative vehicle state
+-   enable external integrations such as notifications and physical
+    display endpoints
