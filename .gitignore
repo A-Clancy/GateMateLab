@@ -18,7 +18,7 @@ home-assistant.log*
 *.fault
 
 # -----------------------------
-# Secrets (never track)
+# Secrets (do not track)
 # -----------------------------
 secrets.yaml
 *.env

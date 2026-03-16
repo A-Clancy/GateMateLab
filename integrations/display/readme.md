@@ -2,15 +2,16 @@
 
 ## Purpose
 
-This module extends the external MQTT subscriber with a physical visual
-endpoint using the Raspberry Pi Sense HAT.
+This module adds a simple physical display endpoint to the GateMate
+external MQTT subscriber using the Raspberry Pi Sense HAT.
 
-It consumes the same retained MQTT topic documented in the External MQTT
-→ ntfy README:
+It consumes the retained MQTT topic used throughout the system:
 
 `gatemate/lab/gate/vehicle_present`
 
-No changes are made to Home Assistant or MQTT topic structure.
+No changes are required in Home Assistant or the MQTT topic structure.
+The display simply reflects the authoritative vehicle presence state
+already published by the system.
 
 ------------------------------------------------------------------------
 
@@ -21,37 +22,48 @@ When a message is received:
 -   `true` → LED matrix turns **red** and scrolls `PRESENT`
 -   `false` → LED matrix turns **green** and scrolls `CLEAR`
 
-Scrolling occurs only on state change.\
+Scrolling occurs **only when the state changes** to avoid unnecessary
+updates.
 
 ------------------------------------------------------------------------
 
 ## Architecture
 
-The display logic is isolated in:
+The display functionality is intentionally isolated from the MQTT
+transport layer.
+
+Display logic:
 
     display.py
 
-The MQTT transport logic remains in:
+MQTT subscription and routing:
 
     subscriber.py
 
-------------------------------------------------------------------------
-
-## Restart & State Recovery
-
-Because the MQTT topic is retained:
-
--   After Raspberry Pi restart,
--   Subscriber reconnects,
--   Broker re-sends last state,
--   Display updates automatically.
-
-No additional state persistence is required on the Pi.
+This separation keeps the subscriber focused on message transport while
+allowing additional endpoints (display, notifications, etc.) to be added
+independently.
 
 ------------------------------------------------------------------------
 
-## Future Extensions (Planned)
+## Restart and State Recovery
 
--   Amber matrix state for `alert_acknowledged`
--   Audible alert via Sense HAT buzzer (optional)
--   Modular notifier refactor (`notifier.py`)
+The MQTT topic is retained by the broker. This means:
+
+1.  The Raspberry Pi can restart safely.
+2.  The subscriber reconnects to the broker.
+3.  The broker immediately re-sends the last retained state.
+4.  The display updates automatically.
+
+No additional state storage is required on the Raspberry Pi.
+
+------------------------------------------------------------------------
+
+## Possible Extensions
+
+Potential future enhancements include:
+
+-   Amber display state for `alert_acknowledged`
+-   Optional audible alerts via the Sense HAT
+-   Refactoring display and notification endpoints into modular notifier
+    components
