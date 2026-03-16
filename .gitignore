@@ -1,31 +1,69 @@
-# Home Assistant runtime/state (do not track)
+# -----------------------------
+# Home Assistant runtime/state
+# -----------------------------
 .storage/
 *.db
 *.db-shm
 *.db-wal
 
+# Zigbee / ZHA runtime
+zigbee.db*
+zha_storage*
+
+# -----------------------------
 # Logs
+# -----------------------------
 *.log
 home-assistant.log*
+*.fault
 
-# Secrets (do not track)
+# -----------------------------
+# Secrets (never track)
+# -----------------------------
 secrets.yaml
+*.env
 
-# Backups and temp
-backups/
-tmp/
-
-# Home Assistant runtime lock
-.ha_run.lock
-
-# Home Assistant blueprint files
-blueprints/template/
-
-# HA Version file
+# -----------------------------
+# Home Assistant runtime files
+# -----------------------------
 .HA_VERSION
-
-# Home Assistant cloud
+.ha_run.lock
 .cloud/
 
-# Fault logs
-*.fault
+# -----------------------------
+# Temporary / backups
+# -----------------------------
+backups/
+tmp/
+*.tmp
+
+# -----------------------------
+# Home Assistant blueprints
+# (not part of GateMate repo)
+# -----------------------------
+blueprints/
+
+# -----------------------------
+# Local HA folders not used by GateMate
+# -----------------------------
+deps/
+tts/
+
+# -----------------------------
+# Python
+# -----------------------------
+__pycache__/
+*.pyc
+*.pyo
+
+# -----------------------------
+# PlatformIO build output
+# -----------------------------
+.pio/
+
+# -----------------------------
+# OS / editor junk
+# -----------------------------
+.DS_Store
+Thumbs.db
+.vscode/
