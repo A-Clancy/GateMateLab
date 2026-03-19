@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GateMate</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      background: #f7f7f7;
+      color: #222;
+    }
+    h1, h2 {
+      color: #1f2d3d;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .muted {
+      color: #666;
+      font-size: 0.95rem;
+    }
+    a {
+      color: #0b63b6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>GateMate</h1>
+
+  <div class="card">
+    <p>
+      GateMate is a Home Assistant–based physical computing project for detecting vehicle
+      presence at a gate. The project combines distance sensing, modular automation logic,
+      MQTT messaging, and external notification endpoints.
+    </p>
+    <p class="muted">
+      This page is an initial project landing page for assessment purposes and will be expanded
+      in later iterations.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Abstract</h2>
+    <p>
+      GateMate is a modular vehicle-presence detection system developed using Home Assistant,
+      MQTT, and low-power sensing hardware. The project began with a BLE-based architecture
+      using a Shelly BLU Distance sensor and ESP32 Bluetooth proxy, then evolved to include a
+      LoRa transport path to address range and reliability constraints identified during testing.
+      Detection logic is separated from transport through an authoritative sensor abstraction,
+      allowing the same processing and notification logic to operate across multiple communication
+      methods. The system supports mobile alerts, external ntfy notifications, and physical display
+      output via a Raspberry Pi Sense HAT. The project demonstrates iterative development,
+      architectural separation of concerns, and practical validation of a real-world physical
+      computing solution.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>System Architecture</h2>
+    <img src="assets/architecture.png" alt="GateMate system architecture diagram" />
+    <p class="muted">
+      Pending.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Key Features</h2>
+    <ul>
+      <li>Vehicle detection using distance thresholds and timing filters</li>
+      <li>BLE and LoRa transport support</li>
+      <li>MQTT-based decoupling between sensing and downstream consumers</li>
+      <li>Home Assistant dashboard and automation integration</li>
+      <li>External notifications via ntfy</li>
+      <li>Physical feedback via Raspberry Pi Sense HAT</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Project Links</h2>
+    <ul>
+      <li><a href="https://github.com/A-Clancy/GateMateLab">GitHub Repository</a></li>
+      <li><a href="#">Demo Video (Pending)</a></li>
+      <li><a href="#">Final Report (Pending)</a></li>
+    </ul>
+  </div>
+
+  <div class="card">`
+    <h2>Planned Improvements</h2>
+    <ul>
+      <li>Battery life optimisation</li>
+      <li>Solar panel integration</li>
+      <li>Add final report PDF link</li>
+      <li>???</li>
+    </ul>
+  </div>
+
+</body>
+</html>
