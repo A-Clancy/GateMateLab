@@ -5,43 +5,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GateMate</title>
   <style>
+    :root {
+      --gm-dark: #1f1f24;
+      --gm-grey: #5a5d66;
+      --gm-orange: #f59e0b;
+      --gm-bg: #f4f4f4;
+      --gm-card: #ffffff;
+      --gm-border: #dddddd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 0 20px;
+      max-width: 1000px;
+      margin: 32px auto;
+      padding: 0 20px 40px;
       line-height: 1.6;
-      background: #f7f7f7;
-      color: #222;
+      background: var(--gm-bg);
+      color: var(--gm-dark);
     }
+
     h1, h2 {
-      color: #1f2d3d;
+      color: var(--gm-dark);
+      margin-top: 0;
     }
+
+    h1 {
+      display: none;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo {
+      display: block;
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto 10px;
+      height: auto;
+      border: none;
+    }
+
+    .hero-image {
+      display: block;
+      width: 100%;
+      max-width: 760px;
+      margin: 20px auto 0;
+      height: auto;
+      border: 2px solid var(--gm-orange);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .tagline {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--gm-grey);
+    }
+
     .card {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 6px;
+      background: var(--gm-card);
+      border-left: 5px solid var(--gm-orange);
+      border-radius: 8px;
       padding: 20px;
       margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     }
-    img {
-      max-width: 100%;
+
+    .content-image {
+      width: 100%;
       height: auto;
-      border: 1px solid #ccc;
+      border: 1px solid var(--gm-border);
+      border-radius: 8px;
+      background: white;
     }
-    ul {
-      padding-left: 20px;
-    }
+
     .muted {
-      color: #666;
+      color: var(--gm-grey);
       font-size: 0.95rem;
     }
-    a {
-      color: #0b63b6;
-      text-decoration: none;
+
+    ul {
+      padding-left: 20px;
+      margin-bottom: 0;
     }
+
+    a {
+      color: var(--gm-orange);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
     a:hover {
       text-decoration: underline;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .feature-box {
+      border: 2px solid var(--gm-orange);
+      border-radius: 12px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .feature-box h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: var(--gm-dark);
+      font-size: 1.15rem;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--gm-grey);
+      font-size: 0.9rem;
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -49,72 +137,95 @@
 
   <h1>GateMate</h1>
 
+  <header class="hero">
+    <img src="assets/gatemate-logo.png" alt="GateMate logo" class="logo" />
+    <p class="tagline">Privacy-first vehicle presence detection</p>
+    <img src="assets/gatemate-hero.png" alt="GateMate deployed hardware at gate" class="hero-image" />
+  </header>
+
   <div class="card">
     <p>
       GateMate is a Home Assistant–based physical computing project for detecting vehicle
-      presence at a gate. The project combines distance sensing, modular automation logic,
-      MQTT messaging, and external notification endpoints.
-    </p>
-    <p class="muted">
-      This page is an initial project landing page for assessment purposes and will be expanded
-      in later iterations.
+      presence at a gate. It combines distance sensing, modular automation logic, MQTT
+      messaging, and external notification endpoints.
     </p>
   </div>
 
   <div class="card">
     <h2>Abstract</h2>
     <p>
-      GateMate is a modular vehicle-presence detection system developed using Home Assistant,
+      GateMate is a modular vehicle presence detection system developed using Home Assistant,
       MQTT, and low-power sensing hardware. The project began with a BLE-based architecture
       using a Shelly BLU Distance sensor and ESP32 Bluetooth proxy, then evolved to include a
       LoRa transport path to address range and reliability constraints identified during testing.
       Detection logic is separated from transport through an authoritative sensor abstraction,
       allowing the same processing and notification logic to operate across multiple communication
       methods. The system supports mobile alerts, external ntfy notifications, and physical display
-      output via a Raspberry Pi Sense HAT. The project demonstrates iterative development,
-      architectural separation of concerns, and practical validation of a real-world physical
-      computing solution.
-    </p>
-  </div>
-
-  <div class="card">
-    <h2>System Architecture</h2>
-    <img src="assets/architecture.png" alt="GateMate system architecture diagram" />
-    <p class="muted">
-      Pending.
+      output via a Raspberry Pi Sense HAT.
     </p>
   </div>
 
   <div class="card">
     <h2>Key Features</h2>
-    <ul>
-      <li>Vehicle detection using distance thresholds and timing filters</li>
-      <li>BLE and LoRa transport support</li>
-      <li>MQTT-based decoupling between sensing and downstream consumers</li>
-      <li>Home Assistant dashboard and automation integration</li>
-      <li>External notifications via ntfy</li>
-      <li>Physical feedback via Raspberry Pi Sense HAT</li>
-    </ul>
+    <div class="feature-grid">
+      <div class="feature-box">
+        <h3>Privacy First</h3>
+        <ul>
+          <li>No cameras</li>
+          <li>No cloud dependency</li>
+          <li>No personal data captured</li>
+        </ul>
+      </div>
+      <div class="feature-box">
+        <h3>Works Anywhere</h3>
+        <ul>
+          <li>BLE, Wi-Fi and LoRa</li>
+          <li>Portable sensing node</li>
+          <li>Off-grid capable</li>
+        </ul>
+      </div>
+      <div class="feature-box">
+        <h3>Modular System</h3>
+        <ul>
+          <li>MQTT-based architecture</li>
+          <li>Transport abstraction</li>
+          <li>Extensible design</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>System Architecture</h2>
+    <img src="assets/poster-system-overview.png" alt="GateMate system architecture diagram" class="content-image" />
+    <p class="muted">
+      High-level overview of sensing, transport, processing, and output layers.
+    </p>
   </div>
 
   <div class="card">
     <h2>Project Links</h2>
     <ul>
       <li><a href="https://github.com/A-Clancy/GateMateLab">GitHub Repository</a></li>
+      <li><a href="https://github.com/A-Clancy/GateMateLab/releases/tag/v1.0">Final Submission Release (v1.0)</a></li>
       <li><a href="#">Demo Video (Pending)</a></li>
       <li><a href="#">Final Report (Pending)</a></li>
     </ul>
   </div>
 
-  <div class="card">`
+  <div class="card">
     <h2>Planned Improvements</h2>
     <ul>
       <li>Battery life optimisation</li>
       <li>Solar panel integration</li>
-      <li>Add final report PDF link</li>
-      <li>???</li>
+      <li>Expanded deployment documentation</li>
+      <li>Final report and video links</li>
     </ul>
   </div>
+
+  <footer>
+    GateMate Project Landing Page
+  </footer>
 
 </body>
 </html>
